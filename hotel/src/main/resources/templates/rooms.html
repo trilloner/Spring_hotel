@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link th:href="@{/styles/main.css}" rel="stylesheet">
+    <title>Spring Security Example</title>
+</head>
+<body th:style="'background-color: #f3efe8;'">
+<header>
+    <nav class="top-menu">
+        <ul class="menu-main">
+            <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
+            <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
+            <li class="right-item"><a th:href="@{/rooms}" th:text="#{main.menu.rooms}"></a></li>
+            <li class="right-item"><a th:href="@{/cabinet}" th:text="#{main.menu.cabinet}"></a></li>
+            <li class="right-item"><a th:href="@{/order}" th:text="#{main.menu.book}"></a></li>
+        </ul>
+    </nav>
+</header>
+<div class="container">
+
+    <div class="right-block">
+        <div class="left-block">
+            <a th:href="@{'/rooms/1?field=price&direction=asc'}">Price ASC</a>
+            <a th:href="@{'/rooms/1?field=price&direction=desc'}">Price DESC</a>
+            <a th:href="@{'/rooms/1?field=numberOfSeats&direction=asc'}">Guests ASC</a>
+            <a th:href="@{'/rooms/1?field=numberOfSeats&direction=desc'}">Guests DESC</a>
+            <a th:href="@{'/rooms'}">Class</a>
+        </div>
+        <div th:style="'display: flex; flex-flow: column nowrap; padding-top: 50px;'">
+            <div class="card-side" th:each="room: ${page.getContent()}">
+                <div th:style="'width: 25%;'">
+                    <img th:src="@{/img/room.jpg}" th:style="'width: 100%;height: 100%;'">
+                </div>
+                <div class="card-content">
+                    <div class="text-content">
+                        <h3 id="card-title" th:text="${room.getName()}"></h3>
+                        <h4 class="price-title" th:text=" 'Class: ' + ${room.getApartment}"></h4>
+                        <h4 class="price-title" th:text=" 'Price: ' + ${room.getPrice}"></h4>
+                        <h4 class="price-title" th:text=" 'Number of seats: ' + ${room.getNumberOfSeats}"></h4>
+                        <h4 class="price-title" th:text=" 'Status : ' + ${room.getState}"></h4>
+                    </div>
+                    <div class="booking-btn">
+                        <button> Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${page.getTotalPages() > 1}">
+            <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1,page.getTotalPages())}">
+                <a th:if="${currentPage != i}"
+                   th:href="@{'/rooms/' + ${i} + '?field=' + ${sortField} + '&direction=' + ${sortDir}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span>
+            </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

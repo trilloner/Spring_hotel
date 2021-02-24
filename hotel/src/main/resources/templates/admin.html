@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link th:href="@{/styles/login.css}" rel="stylesheet">
+    <title>ADMIN PAGE</title>
+</head>
+<body th:style="'background-color: #f3efe8;'">
+<header>
+
+</header>
+<div class="container">
+    <section class="filterBar">
+        <div class="search-ui">
+            <label for="search">Search</label>
+            <div class="search-container">
+                <form action="">
+                    <input class="search-input" type="text" placeholder="Search by user name or email address..."
+                           name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="filter-ui">
+            <label for="filters">Show me</label>
+            <div class="styled-select">
+                <select name="accountStatus" id="filters">
+                    <option value="active">Everyone</option>
+                    <optgroup label="Audience">
+                        <option value="commenters">Commenters</option>
+                    </optgroup>
+                    <optgroup label="Organization">
+                        <option value="admins">Admins</option>
+                        <option value="moderators">Moderators</option>
+                        <option value="banned">Staff</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <table>
+        <tr class="table-header">
+            <th>Username</th>
+            <th>Email Address</th>
+            <th>Check in</th>
+            <th>Check out</th>
+            <th>Number of guests</th>
+            <th>Room</th>
+            <th class="statusHead">Status</th>
+        </tr>
+
+        <tr th:each="reservation: ${orders}">
+            <form th:action="@{/admin/{path}(path=${reservation.getId()})}" th:method="post" th:object="${orderRoom}">
+                <td class="username" th:text="${reservation.getUserByUserId().getName()}"></td>
+                <td class="email">
+                    <a href="mailto:email@email.com" th:text="${reservation.getUserByUserId().getEmail()}"></a>
+                </td>
+                <td th:text="${reservation.getCheckIn()}"></td>
+                <td th:text="${reservation.getCheckOut()}"></td>
+                <td th:text="${reservation.getNumberOfSeats()}"></td>
+                <th:block th:if="${reservation.getRoomId()}">
+                    <td  th:text="${reservation.getRoomId().getName()}">
+                    </td>
+                </th:block>
+                <td th:unless="${reservation.getRoomId()}">
+                    <select th:field="*{roomId}">
+                        <option th:each="room: ${rooms.rooms}" th:text="${room.getName()}"
+                                th:name="${room.getId()}" th:value="${room.getId()}"></option>
+                    </select>
+                </td>
+                <td class="activeUser" th:text="${reservation.getStatus()}"><i class="fas fa-angle-down"></i></td>
+                <th:block th:switch="${reservation.getStatus()}">
+
+
+                    <td th:case="${reservation.getStatus().PENDING}">
+                        <button class="yes-button blur-hover" type="submit">&#10004;</button>
+                        <button class="no-button blur-hover"> &#10006;</button>
+                    </td>
+                </th:block>
+            </form>
+        </tr>
+
+    </table>
+</div>
+<form th:action="@{/doLogout}" method="post">
+    <input type="submit" value="LOG OUT">
+</form>
+</body>
+</html>

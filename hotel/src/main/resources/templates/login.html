@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link th:href="@{/styles/login.css}" rel="stylesheet">
+    <link th:href="@{/styles/register.css}" rel="stylesheet">
+
+    <title>Spring Security Example</title>
+</head>
+<body>
+<header>
+    <nav class="top-menu">
+        <ul class="menu-main">
+            <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
+            <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
+            <li class="right-item"><a href="" th:text="#{main.menu.book}"></a></li>
+            <li class="right-item"><a href="">Shop</a></li>
+            <li class="right-item"><a href="">Gallery</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="loginForm">
+    <form th:action="@{/login}" method="post">
+        <div><label> User Name : <input id="name" type="text" name="username"/> </label></div>
+        <div><label> Password: <input id="password" type="password" name="password"/> </label></div>
+        <div th:if="${param.error}">
+            Invalid username or password.
+        </div>
+        <div><input id="button" type="submit" value="Sign In"/></div>
+    </form>
+</div>
+</body>
+</html>

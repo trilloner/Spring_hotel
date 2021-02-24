@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link th:href="@{/styles/login.css}" rel="stylesheet">
+    <title>ADMIN PAGE</title>
+</head>
+<body th:style="'background-color: #f3efe8;'">
+<header>
+    <nav class="top-menu">
+        <ul class="menu-main">
+            <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
+            <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
+            <li class="right-item"><a th:href="@{/rooms}" th:text="#{main.menu.rooms}"></a></li>
+            <li class="right-item"><a th:href="@{/cabinet}" th:text="#{main.menu.cabinet}"></a></li>
+            <li class="right-item"><a th:href="@{/order}" th:text="#{main.menu.book}"></a></li>
+        </ul>
+    </nav>
+</header>
+<div class="container">
+    <section class="filterBar">
+        <div class="search-ui">
+            <label for="search">Search</label>
+            <div class="search-container">
+                <form action="">
+                    <input class="search-input" type="text" placeholder="Search by user name or email address..."
+                           name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="filter-ui">
+            <label for="filters">Show me</label>
+            <div class="styled-select">
+                <select name="accountStatus" id="filters">
+                    <option value="active">Everyone</option>
+                    <optgroup label="Audience">
+                        <option value="commenters">Commenters</option>
+                    </optgroup>
+                    <optgroup label="Organization">
+                        <option value="admins">Admins</option>
+                        <option value="moderators">Moderators</option>
+                        <option value="banned">Staff</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <table>
+        <tr class="table-header">
+            <th>Username</th>
+            <th>Check in</th>
+            <th>Check out</th>
+            <th class="roleHead">Number of guests</th>
+            <th class="statusHead">Room</th>
+            <th class="statusHead">Status</th>
+            <th class="statusHead">Payment</th>
+        </tr>
+        <tr th:each="reservation: ${orders}">
+            <td class="username" th:text="${reservation.getId()}"></td>
+            <td th:text="${reservation.getCheckIn()}"></td>
+            <td th:text="${reservation.getCheckOut()}"></td>
+            <td class="commenter" th:text="${reservation.getNumberOfSeats()}"><i class="fas fa-angle-down"></i></td>
+            <th:block th:if="${reservation.getRoomId()}">
+                <td class="commenter" th:text="${reservation.getRoomId().getName()}"><i class="fas fa-angle-down"></i>
+                </td>
+            </th:block>
+            <th:block th:unless="${reservation.getRoomId()}">
+                <td class="commenter"><i class="fas fa-angle-down"></i></td>
+            </th:block>
+            <td class="activeUser" th:text="${reservation.getStatus()}"><i class="fas fa-angle-down"></i></td>
+            <th:block th:switch="${reservation.getStatus()}">
+                <td th:case="${reservation.getStatus().CONFIRMED}"><a>Accept</a></td>
+                <td th:case="*"></td>
+            </th:block>
+        </tr>
+    </table>
+</div>
+<form th:action="@{/doLogout}" method="post">
+    <input type="submit" value="LOG OUT">
+</form>
+</body>
+</html>
