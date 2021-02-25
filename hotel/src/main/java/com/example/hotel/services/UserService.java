@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
                               .setRoleAndPassword(
                                     Roles.ROLE_USER,
                                     bCryptPasswordEncoder.encode(userDTO.getPassword()))
-                     );
+                    );
         } catch (Exception e) {
             log.info("{} Can`t register new User", e.getMessage());
             throw new ResourceNotFoundException("User already exist");

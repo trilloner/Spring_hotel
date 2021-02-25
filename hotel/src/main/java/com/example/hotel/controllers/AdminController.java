@@ -11,9 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller class for administrator
+ */
 @Controller
 @Slf4j
+@RequestMapping("/admin")
 public class AdminController {
     private final OrderService orderService;
     private final RoomService roomService;
@@ -23,15 +28,29 @@ public class AdminController {
         this.roomService = roomService;
     }
 
-    @GetMapping("/admin")
+    /**
+     * Returns admin page includes rooms and reservations
+     *
+     * @param model page model
+     * @return admin page
+     */
+    @GetMapping()
     public String getAdminPage(Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("orderRoom", new OrderDto());
+
         return "admin";
     }
 
-    @PostMapping("/admin/{orderId}")
+    /**
+     * Updates reservation by id
+     *
+     * @param orderId  reservation id
+     * @param orderDto reservation dto
+     * @return redirect to admin page
+     */
+    @PostMapping("/{orderId}")
     public String updateOrder(@PathVariable("orderId") Long orderId, OrderDto orderDto) {
         try {
             orderService.updateOrder(orderId, orderDto);
@@ -41,5 +60,19 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-
+    /**
+     * Deletes reservation by id
+     *
+     * @param orderId reservation id
+     * @return redirect to admin page
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteOrder(@PathVariable("id") Long orderId) {
+        try {
+            orderService.deleteById(orderId);
+        } catch (ResourceNotFoundException e) {
+            log.error("The order cannot be deleted: {}", e.getMessage());
+        }
+        return "redirect:/admin";
+    }
 }

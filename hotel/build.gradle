@@ -36,6 +36,9 @@ dependencies {
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+// https://mvnrepository.com/artifact/org.webjars/bootstrap
+    implementation group: 'org.webjars', name: 'bootstrap', version: '4.5.3'
+
 }
 
 test {

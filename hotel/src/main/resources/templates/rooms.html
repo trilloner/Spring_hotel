@@ -28,7 +28,7 @@
             <a th:href="@{'/rooms'}">Class</a>
         </div>
         <div th:style="'display: flex; flex-flow: column nowrap; padding-top: 50px;'">
-            <div class="card-side" th:each="room: ${page.getContent()}">
+            <div class="card-side" th:each="room, index: ${page.getContent()}">
                 <div th:style="'width: 25%;'">
                     <img th:src="@{/img/room.jpg}" th:style="'width: 100%;height: 100%;'">
                 </div>
@@ -41,22 +41,88 @@
                         <h4 class="price-title" th:text=" 'Status : ' + ${room.getState}"></h4>
                     </div>
                     <div class="booking-btn">
-                        <button> Booking</button>
+                        <button class="myBtn" th:data="${index.index}" onclick="f(this.getAttribute('data'))"> Booking
+                        </button>
                     </div>
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+                        <!--                        <div class="modal-content">-->
+                        <!--                            <span class="close">&times;</span>-->
+                        <!--                            <div class="container">-->
+                        <!--                                <div class="row">-->
+                        <!--                                    <div class="col-md-6 col-md-offset-3">-->
+                        <!--                                        <form class="main-form first" th:action="@{/rooms/booking}"-->
+                        <!--                                              th:object="${reservation}" method="post">-->
+                        <!--                                            <h2 th:text="'Book a room: ' + ${room.getName()}"></h2>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <label for="name" class="control-label">Check in</label>-->
+                        <!--                                                <input id="name" class="form-control" type="date"-->
+                        <!--                                                       th:field="*{checkIn}"/>-->
+
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <label for="email" class="control-label">Check out</label>-->
+                        <!--                                                <input id="email" class="form-control" type="date"-->
+                        <!--                                                       th:field="*{checkOut}"/>-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <label for="password" class="control-label">Number of people</label>-->
+                        <!--                                                <input id="password"  class="form-control"-->
+                        <!--                                                       type="text"-->
+                        <!--                                                       th:field="*{numberOfSeats}" th:value="${room.getNumberOfSeats}"/>-->
+
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <label for="class" class="control-label">Class</label>-->
+                        <!--                                                <input id="class" type="text" class="form-control" th:text="${room.getApartment}"-->
+                        <!--                                                       th:value="${room.getApartment}"-->
+                        <!--                                                       th:field="*{apartments}">-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <button id="button" type="submit" class="btn btn-success">Book now-->
+                        <!--                                                </button>-->
+                        <!--                                            </div>-->
+                        <!--                                            <div th:if="${errorMessage}">-->
+                        <!--                                                <p th:text="${errorMessage}"/>-->
+                        <!--                                            </div>-->
+
+                        <!--                                        </form>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+
+                        <!--                        </div>-->
+                    </div>
+
                 </div>
+
             </div>
-        </div>
-        <div th:if="${page.getTotalPages() > 1}">
-            <div class="col-sm-1">
+            <div th:if="${page.getTotalPages() > 1}">
+                <div class="col-sm-1">
             <span th:each="i: ${#numbers.sequence(1,page.getTotalPages())}">
                 <a th:if="${currentPage != i}"
                    th:href="@{'/rooms/' + ${i} + '?field=' + ${sortField} + '&direction=' + ${sortDir}}">[[${i}]]</a>
                 <span th:unless="${currentPage != i}">[[${i}]]</span>
             </span>
-            </div>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
+    <script>
+
+
+        function f(number) {
+            var modal = document.getElementsByClassName("modal")[number];
+
+            modal.style.display = "block";
+            var span = document.getElementsByClassName("close")[number];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
 </body>
 </html>

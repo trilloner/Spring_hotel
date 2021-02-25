@@ -6,7 +6,6 @@ import com.example.hotel.models.Room;
 import com.example.hotel.repositories.RoomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

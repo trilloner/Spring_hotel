@@ -60,7 +60,7 @@
                 <td th:text="${reservation.getCheckOut()}"></td>
                 <td th:text="${reservation.getNumberOfSeats()}"></td>
                 <th:block th:if="${reservation.getRoomId()}">
-                    <td  th:text="${reservation.getRoomId().getName()}">
+                    <td th:text="${reservation.getRoomId().getName()}">
                     </td>
                 </th:block>
                 <td th:unless="${reservation.getRoomId()}">
@@ -75,7 +75,8 @@
 
                     <td th:case="${reservation.getStatus().PENDING}">
                         <button class="yes-button blur-hover" type="submit">&#10004;</button>
-                        <button class="no-button blur-hover"> &#10006;</button>
+                        <a class="no-button blur-hover" th:href="@{/admin/delete/{path} (path=${reservation.getId()})}">
+                            &#10006;</a>
                     </td>
                 </th:block>
             </form>

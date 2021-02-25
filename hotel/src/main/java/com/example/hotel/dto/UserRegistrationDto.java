@@ -4,7 +4,9 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-
+/**
+ * Data transfer object for creating user
+ */
 @Data
 public class UserRegistrationDto {
 

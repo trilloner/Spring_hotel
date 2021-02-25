@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
+/**
+ * Reservation controller class
+ */
 @Controller
 @Slf4j
 public class OrderController {
@@ -28,12 +31,27 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    /**
+     * Returns reservation page
+     *
+     * @param model page model
+     * @return reservation page
+     */
     @GetMapping("/order")
     public String getOrderPage(Model model) {
         model.addAttribute("order", new ReservationDTO());
         return "order";
     }
 
+    /**
+     * Adds new reservation created by user.
+     *
+     * @param reservation   valid reservation dto
+     * @param bindingResult binding result
+     * @param user          current user in active session
+     * @param model         page model
+     * @return redirect to cabinet page
+     */
     @PostMapping("/order")
     public String createNewOrder(@ModelAttribute("order")
                                  @Valid ReservationDTO reservation,

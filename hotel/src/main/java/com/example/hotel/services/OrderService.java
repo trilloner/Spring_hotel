@@ -60,8 +60,17 @@ public class OrderService {
                     .orElseThrow(() -> new ResourceNotFoundException("Can`t find room by id"));
             return orderRepository.save(reservation.addStatusAndRoom(Status.CONFIRMED, room));
         } catch (Exception e) {
-            log.info("Can`t update user");
+            log.info("Can`t update user: {}", e.getMessage());
             throw new ResourceNotFoundException("Can`t update order");
+        }
+    }
+
+    public void deleteById(Long id) throws ResourceNotFoundException {
+        try {
+            orderRepository.deleteById(id);
+        } catch (Exception e) {
+            log.error("Order id must not be null, {}", e.getMessage());
+            throw new ResourceNotFoundException("Order id must not be null");
         }
     }
 }

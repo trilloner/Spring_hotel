@@ -1,6 +1,5 @@
 package com.example.hotel.utils;
 
-import com.example.hotel.dto.ReservationDTO;
 import com.example.hotel.exceptions.ValidationException;
 import org.springframework.validation.Errors;
 

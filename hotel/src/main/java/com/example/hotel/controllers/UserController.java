@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
+/**
+ * User controller class
+ */
 @Slf4j
 @Controller
 public class UserController {
@@ -25,6 +28,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Register new user to service
+     *
+     * @param userDto       user data
+     * @param bindingResult binding result
+     * @param model         page model
+     * @return redirect to login
+     */
     @PostMapping("/registration")
     public String registerNewUser(@ModelAttribute("user") @Valid UserRegistrationDto userDto, BindingResult bindingResult,
                                   Model model) {
@@ -40,11 +51,22 @@ public class UserController {
         return "redirect:/login";
     }
 
+    /**
+     * Returns main page
+     *
+     * @return main page
+     */
     @GetMapping("/")
     public String getMainPage() {
         return "main";
     }
 
+    /**
+     * Returns login page
+     *
+     * @param model page model
+     * @return registration page
+     */
     @GetMapping("/registration")
     public String getLoginPage(Model model) {
         model.addAttribute("user", new UserRegistrationDto());

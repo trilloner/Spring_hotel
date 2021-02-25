@@ -6,6 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * Data transfer object for creating reservation
+ */
 @Data
 public class ReservationDTO {
     @NotNull(message = "this field is required")
