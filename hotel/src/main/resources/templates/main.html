@@ -4,7 +4,7 @@
 >
 <head>
     <link th:href="@{/styles/main.css}" rel="stylesheet">
-    <title>Spring Security Example</title>
+    <title th:text="#{main.title}"></title>
     <!--    <script type="text/javascript" th:src="@{/js/logout.js}"></script>-->
 
 </head>
@@ -18,24 +18,28 @@
                 <li class="right-item"><a th:href="@{/registration}" th:text="#{main.menu.book}"></a></li>
 
             </div>
-            <div sec:authorize="isAuthenticated()">
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+                <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
+                <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
+                <li class="right-item"><a th:href="@{/admin}" th:text="#{main.menu.cabinet}"></a></li>
+            </div>
+            <div sec:authorize="hasRole('ROLE_USER')">
+
                 <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
                 <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
                 <li class="right-item"><a th:href="@{/rooms}" th:text="#{main.menu.rooms}"></a></li>
-                <li class="right-item"><a th:href="@{/cabinet}" th:text="#{main.menu.cabinet}">My orders</a></li>
+                <li class="right-item"><a th:href="@{/cabinet}" th:text="#{main.menu.cabinet}"></a></li>
                 <li class="right-item"><a th:href="@{/order}" th:text="#{main.menu.book}"></a></li>
             </div>
-
         </ul>
 
     </nav>
 </header>
 <div id="overlay">
-        <div id="text">
-            <h2  th:text="#{main.welcome}"> </h2>
-<!--            <a href="#" class="btn btn-primary btn-lg">Book Now</a>-->
-
-        </div>
+    <div id="text">
+        <h2 th:text="#{main.welcome}"></h2>
+    </div>
 
 </div>
 </body>

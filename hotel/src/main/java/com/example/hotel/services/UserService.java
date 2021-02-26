@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * User service class
+ */
 @Slf4j
 @Service
 public class UserService implements UserDetailsService {
@@ -29,25 +32,46 @@ public class UserService implements UserDetailsService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /**
+     * Register a new user
+     *
+     * @param userDTO user object from register form
+     * @return registered user
+     * @throws ResourceNotFoundException
+     */
     public User registerNewUser(UserRegistrationDto userDTO) throws ResourceNotFoundException {
         try {
             return userRepository.save(
                     userMapper.toEntity(userDTO)
-                              .setRoleAndPassword(
+                            .setRoleAndPassword(
                                     Roles.ROLE_USER,
                                     bCryptPasswordEncoder.encode(userDTO.getPassword()))
-                    );
+            );
         } catch (Exception e) {
             log.info("{} Can`t register new User", e.getMessage());
             throw new ResourceNotFoundException("User already exist");
         }
     }
 
+    /**
+     * Finds user by email
+     *
+     * @param email user`s email
+     * @return user
+     * @throws ResourceNotFoundException
+     */
     public User findUserByEmail(String email) throws ResourceNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Can`t find user with email"));
     }
 
+    /**
+     * Loads user by username from
+     *
+     * @param username user`s username
+     * @return authorized user
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(() ->

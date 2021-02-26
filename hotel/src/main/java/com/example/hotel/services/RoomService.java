@@ -9,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+/**
+ * Room service class
+ */
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
@@ -18,6 +21,11 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
+    /**
+     * Finds the room sort page
+     *
+     * @return page of sorted rooms
+     */
     public RoomsDto getAllRooms() {
         return new RoomsDto(roomRepository.findAll());
     }
@@ -25,9 +33,16 @@ public class RoomService {
     public Page<Room> findPaginated(int pageNum, String sortField, String sortDir) {
         return roomRepository.findAll(PageRequest.of(pageNum - 1, 3,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
-                                      : Sort.by(sortField).descending()));
+                        : Sort.by(sortField).descending()));
     }
 
+    /**
+     * Finds room by id or throw ResourceNotFound exception
+     *
+     * @param id room id
+     * @return room
+     * @throws ResourceNotFoundException
+     */
     public Room findByRoomId(Long id) throws ResourceNotFoundException {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find user by id"));

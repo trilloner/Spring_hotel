@@ -61,10 +61,4 @@ public class RoomController {
         return "rooms";
     }
 
-    //TODO
-    @PostMapping("/booking")
-    public String bookingRoom(ReservationDTO reservationDTO) {
-        System.out.println("or");
-        return "redirect:/cabinet";
-    }
 }

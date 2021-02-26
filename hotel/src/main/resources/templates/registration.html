@@ -4,7 +4,7 @@
 <head>
     <link th:href="@{/styles/login.css}" rel="stylesheet">
     <link th:href="@{/styles/register.css}" rel="stylesheet">
-    <title>Spring Security Example</title>
+    <title th:text="#{registration.title}"></title>
 </head>
 <body>
 <header>
@@ -12,9 +12,8 @@
         <ul class="menu-main">
             <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
             <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
-            <li class="right-item"><a href="" th:text="#{main.menu.book}"></a></li>
-            <li class="right-item"><a href="">Shop</a></li>
-            <li class="right-item"><a href="">Gallery</a></li>
+            <li class="right-item"><a th:href="@{/login}" th:text="#{main.menu.book}"></a></li>
+
         </ul>
     </nav>
 </header>
@@ -25,18 +24,18 @@
 
             <form class="main-form first" th:action="@{/registration}"
                   th:object="${user}" method="post">
-                <h2>Sign Up</h2>
+                <h2 th:text="#{registration.signup}"></h2>
                 <div class="form-group">
-                    <label for="name" class="control-label">First name</label>
+                    <label for="name" class="control-label" th:text="#{registration.username}"></label>
                     <input id="name" class="form-control" th:field="*{name}"/>
                     <span th:errors="*{name}"></span>
                 </div>
                 <div class="form-group">
-                    <label for="email" class="control-label">E-mail</label>
+                    <label for="email" class="control-label" th:text="#{registration.email}"></label>
                     <input id="email" class="form-control" th:field="*{email}"/>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="control-label">Password</label>
+                    <label for="password" class="control-label" th:text="#{registration.password}"></label>
                     <input id="password" class="form-control" type="password"
                            th:field="*{password}"/>
                 </div>
@@ -44,9 +43,11 @@
                     <p th:text="${errorMessage}"/>
                 </div>
                 <div class="form-group">
-                    <button id="button" type="submit" class="btn btn-success">Register</button>
-                    <span>Already registered? <a href="/" th:href="@{/login}">Login
-        here</a></span>
+                    <button id="button" type="submit" class="btn btn-success"
+                            th:text="#{registration.register}"></button>
+                    <span th:text="#{registration.span.login}"></span>
+                    <a href="/" th:href="@{/login}"
+                                                                                      th:text="#{registration.login}"></a>
                 </div>
 
             </form>

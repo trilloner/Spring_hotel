@@ -3,16 +3,23 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <link th:href="@{/styles/login.css}" rel="stylesheet">
-    <title>ADMIN PAGE</title>
+    <title th:text="#{admin.title}">ADMIN PAGE</title>
 </head>
 <body th:style="'background-color: #f3efe8;'">
 <header>
+    <nav class="top-menu">
+        <ul class="menu-main">
+            <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
+            <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
+            <li class="right-item"><a th:href="@{/admin}" th:text="#{main.menu.cabinet}"></a></li>
+        </ul>
+    </nav>
 
 </header>
 <div class="container">
     <section class="filterBar">
         <div class="search-ui">
-            <label for="search">Search</label>
+            <label for="search" th:text="#{cabinet.search}"></label>
             <div class="search-container">
                 <form action="">
                     <input class="search-input" type="text" placeholder="Search by user name or email address..."
@@ -21,33 +28,16 @@
                 </form>
             </div>
         </div>
-        <div class="filter-ui">
-            <label for="filters">Show me</label>
-            <div class="styled-select">
-                <select name="accountStatus" id="filters">
-                    <option value="active">Everyone</option>
-                    <optgroup label="Audience">
-                        <option value="commenters">Commenters</option>
-                    </optgroup>
-                    <optgroup label="Organization">
-                        <option value="admins">Admins</option>
-                        <option value="moderators">Moderators</option>
-                        <option value="banned">Staff</option>
-                    </optgroup>
-                </select>
-            </div>
-        </div>
     </section>
 
     <table>
         <tr class="table-header">
-            <th>Username</th>
-            <th>Email Address</th>
-            <th>Check in</th>
-            <th>Check out</th>
-            <th>Number of guests</th>
-            <th>Room</th>
-            <th class="statusHead">Status</th>
+            <th th:text="#{cabinet.username}">Username</th>
+            <th th:text="#{cabinet.checkin}">Check in</th>
+            <th th:text="#{cabinet.checkout}">Check out</th>
+            <th class="roleHead" th:text="#{cabinet.people}">Number of guests</th>
+            <th class="statusHead" th:text="#{cabinet.room}">Room</th>
+            <th class="statusHead" th:text="#{cabinet.status}">Status</th>
         </tr>
 
         <tr th:each="reservation: ${orders}">
@@ -85,7 +75,7 @@
     </table>
 </div>
 <form th:action="@{/doLogout}" method="post">
-    <input type="submit" value="LOG OUT">
+    <input type="submit" th:value="#{cabinet.logout}">
 </form>
 </body>
 </html>

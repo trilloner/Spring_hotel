@@ -3,6 +3,9 @@ package com.example.hotel.utils;
 import com.example.hotel.exceptions.ValidationException;
 import org.springframework.validation.Errors;
 
+/**
+ *
+ */
 public class ValidatorUtils {
 
     public static void validateReservation(Errors errors)

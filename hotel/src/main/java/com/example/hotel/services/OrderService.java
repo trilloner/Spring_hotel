@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Reservation service class
+ */
 @Service
 @Slf4j
 public class OrderService {
@@ -30,6 +33,14 @@ public class OrderService {
         this.roomRepository = roomRepository;
     }
 
+    /**
+     * Creates a new reservation for the current user
+     *
+     * @param user           authorized user
+     * @param reservationDTO reservation from form
+     * @return created reservation
+     * @throws ResourceNotFoundException
+     */
     public Reservation createOrder(UserDetailsImpl user, ReservationDTO reservationDTO)
             throws ResourceNotFoundException {
         try {
@@ -43,6 +54,11 @@ public class OrderService {
         }
     }
 
+    /**
+     * Returns all orders sorted by status
+     *
+     * @return list of reservations
+     */
     public List<Reservation> getAllOrders() {
         return orderRepository.findAllByOrderByStatusDesc();
     }
@@ -51,6 +67,14 @@ public class OrderService {
         return orderRepository.getAllByUserByUserId(userDetails.getUser());
     }
 
+    /**
+     * Finds reservation by id and updates it - adds room id.
+     *
+     * @param id       room id
+     * @param orderDto reservation id
+     * @return updated reservation
+     * @throws ResourceNotFoundException
+     */
     @Transactional
     public Reservation updateOrder(Long id, OrderDto orderDto) throws ResourceNotFoundException {
         try {
@@ -65,6 +89,12 @@ public class OrderService {
         }
     }
 
+    /**
+     * Deletes reservation by id
+     *
+     * @param id reservation id
+     * @throws ResourceNotFoundException
+     */
     public void deleteById(Long id) throws ResourceNotFoundException {
         try {
             orderRepository.deleteById(id);

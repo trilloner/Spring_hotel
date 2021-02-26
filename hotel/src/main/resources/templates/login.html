@@ -5,7 +5,7 @@
     <link th:href="@{/styles/login.css}" rel="stylesheet">
     <link th:href="@{/styles/register.css}" rel="stylesheet">
 
-    <title>Spring Security Example</title>
+    <title th:text="#{login.title}"></title>
 </head>
 <body>
 <header>
@@ -14,20 +14,20 @@
             <li class="left-item"><a th:href="@{'?lang=en'}">EN</a></li>
             <li class="left-item"><a th:href="@{'?lang=ru'}">RU</a></li>
             <li class="right-item"><a href="" th:text="#{main.menu.book}"></a></li>
-            <li class="right-item"><a href="">Shop</a></li>
-            <li class="right-item"><a href="">Gallery</a></li>
+
         </ul>
     </nav>
 </header>
 
 <div class="loginForm">
     <form th:action="@{/login}" method="post">
-        <div><label> User Name : <input id="name" type="text" name="username"/> </label></div>
-        <div><label> Password: <input id="password" type="password" name="password"/> </label></div>
+        <div><label for="name" th:text="#{login.email}"> </label><input id="name" type="text" name="username"/></div>
+        <div><label for="password" th:text="#{login.password}"> </label><input id="password" type="password"
+                                                                               name="password"/></div>
         <div th:if="${param.error}">
             Invalid username or password.
         </div>
-        <div><input id="button" type="submit" value="Sign In"/></div>
+        <div><input id="button" type="submit" th:value="#{login.login}"/></div>
     </form>
 </div>
 </body>
